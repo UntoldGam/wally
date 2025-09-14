@@ -4,6 +4,11 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      tag:
+        type: string
+        description: the tag you want to release
+        required: true
 
 jobs:
   create-release:
@@ -18,8 +23,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          tag_name: ${{ inputs.tag }}
+          release_name: ${{ inputs.tag  }}
           draft: false
           prerelease: false
 
@@ -27,7 +32,7 @@ jobs:
     uses: ./.github/workflows/build.yml
     needs: create-release
     with:
-      tag: ${{ github.ref_name }}
+      tag: ${{ inputs.tag }}
       upload_url: ${{ needs.create-release.outputs.upload_url }}
-      release_ref: ${{ github.ref_name }}
+      release_ref: ${{ inputs.tag }}
       overwrite: false
