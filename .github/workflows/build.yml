@@ -38,6 +38,7 @@ jobs:
 
     - name: Build
       run: |
+        cd wally-src
         rustup target add aarch64-unknown-linux-gnu 
         cargo build --locked --verbose --release --target aarch64-unknown-linux-gnu
       env:
