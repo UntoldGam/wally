@@ -4,27 +4,27 @@ on:
       tag:
         required: true
         type: string
-
+        
       upload_url:
         required: true
         type: string
-
+        
       release_ref:
         required: true
         type: string
-
+        
       overwrite:
         required: true
         type: boolean
-
+        
       release_name:
         required: false
         type: string
-      
+          
       release_body:
         required: false
         type: string
-
+                
 jobs:
   linux-arm64:
     runs-on: ubuntu-latest
@@ -36,7 +36,6 @@ jobs:
 
     - uses: Swatinem/rust-cache@v2
 
-    - name: Build
     - name: Build
       run: |
         rustup target add aarch64-unknown-linux-gnu 
