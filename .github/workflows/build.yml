@@ -26,8 +26,8 @@ on:
         type: string
 
 jobs:
-  windows:
-    runs-on: windows-latest
+  linux-arm64:
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
@@ -36,46 +36,8 @@ jobs:
 
     - uses: Swatinem/rust-cache@v2
 
-    - name: Build release binary
-      run: cargo build --verbose --locked --release
-
-    - name: Create Release Archive
-      shell: bash
-      run: |
-        mkdir staging
-        cp "target/release/wally.exe" staging/
-        cd staging
-        7z a ../release.zip *
-
-    - name: Upload Archive to Release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ inputs.tag }}
-        file: release.zip
-        asset_name: wally-${{ inputs.release_ref }}-win64.zip
-        overwrite: ${{ inputs.overwrite }}
-        release_name: ${{ inputs.release_name }}
-        body: ${{ inputs.release_body }}
-        prerelease: true
-
-  macos:
-    runs-on: macos-latest
-
-    steps:
-    - uses: actions/checkout@v1
-      with:
-        submodules: true
-
-    - name: Install Rust
-      run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-    - uses: Swatinem/rust-cache@v2
-
-    - name: Build release binary
-      run: |
-        source $HOME/.cargo/env
-        cargo build --verbose --locked --release
+    - name: Build
+      run: cargo build --locked --verbose --release --target aarch64-unknown-linux-gnu
       env:
         OPENSSL_STATIC: 1
 
@@ -93,7 +55,7 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ inputs.tag }}
         file: release.zip
-        asset_name: wally-${{ inputs.release_ref }}-macos.zip
+        asset_name: wally-${{ inputs.release_ref }}-linux-arm64.zip
         overwrite: ${{ inputs.overwrite }}
         release_name: ${{ inputs.release_name }}
         body: ${{ inputs.release_body }}
