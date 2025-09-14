@@ -1,6 +1,6 @@
 <div align="center" width="800">
     <img alt="Wally Logo" src="wally-logo.svg" />
-    <h1>Wally, a package manager for Roblox
+    <h1>Wally, a package manager for Roblox BUT UNTOLDGAM's FORK
 	</h1>
 </div>
 
